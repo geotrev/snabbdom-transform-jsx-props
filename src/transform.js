@@ -1,30 +1,5 @@
-import { forEach, kebabToCamel } from "./utilities.js"
-
-const propsToUpdate = [
-  {
-    reg: /^aria-/,
-    module: "attrs",
-  },
-  {
-    reg: /^data-/,
-    module: "dataset",
-    mutate: (key) => kebabToCamel(key.slice(5)),
-  },
-  {
-    reg: /^on-/,
-    module: "on",
-    mutate: (key) => key.split("-")[1],
-  },
-  {
-    reg: /^hook-/,
-    module: "hook",
-    mutate: (key) => key.split("-")[1],
-  },
-  {
-    reg: /^className$/,
-    module: "props",
-  },
-]
+import { forEach } from "./utilities.js"
+import { PropRecords } from "./prop-map.js"
 
 /**
  * Converts JSX props to valid snabbdom vnode modules.
@@ -36,12 +11,12 @@ export function transform(vnode) {
     const propKeys = Object.keys(vnode.data)
     const deletions = []
 
-    forEach(propsToUpdate, (propInfo) => {
-      const matches = propKeys.filter((key) => propInfo.reg.test(key))
+    forEach(PropRecords, (record) => {
+      const matches = propKeys.filter((key) => record.reg.test(key))
       if (!matches.length) return
 
       forEach(matches, (propKey) => {
-        const { module, mutate } = propInfo
+        const { module, mutate } = record
         const moduleKey = mutate ? mutate(propKey) : propKey
         const value = vnode.data[propKey]
 

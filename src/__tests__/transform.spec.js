@@ -1,3 +1,4 @@
+import { jsx } from "snabbdom"
 import "../transform.js"
 
 /* eslint-disable jest/expect-expect */
