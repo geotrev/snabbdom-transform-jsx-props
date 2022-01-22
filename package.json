@@ -1,0 +1,28 @@
+{
+  "name": "snabbdom-transform-jsx",
+  "version": "0.1.0",
+  "description": "",
+  "main": "lib/snabbdom-transform-jsx.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/geotrev/snabbdom-transform-jsx.git"
+  },
+  "keywords": [
+    "jsx",
+    "snabbdom",
+    "javascript",
+    "virtual dom",
+    "virtual node",
+    "vnode",
+    "vdom"
+  ],
+  "author": "George Treviranus <geowtrev@gmail.com> (https://geotrev.com/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/geotrev/snabbdom-transform-jsx/issues"
+  },
+  "homepage": "https://github.com/geotrev/snabbdom-transform-jsx#readme"
+}
