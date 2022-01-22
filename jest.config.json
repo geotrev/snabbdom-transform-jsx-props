@@ -5,5 +5,8 @@
   "testURL": "http://localhost/",
   "modulePaths": ["src/"],
   "testEnvironment": "jsdom",
-  "verbose": true
+  "verbose": true,
+  "transform": {
+    "\\.js$": "babel-jest"
+  }
 }
