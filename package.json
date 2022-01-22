@@ -1,7 +1,7 @@
 {
   "name": "snabbdom-transform-jsx",
   "version": "0.1.0",
-  "description": "",
+  "description": "Intuitive prop syntax for Snabbdom JSX.",
   "main": "lib/snabbdom-transform-jsx.js",
   "scripts": {
     "test": "npm test"
