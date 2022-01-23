@@ -1,5 +1,5 @@
 import { forEach } from "./utilities.js"
-import { PropRecords } from "./prop-map.js"
+import { PropRecords } from "./prop-records.js"
 
 /**
  * Converts JSX props to valid snabbdom vnode modules.
