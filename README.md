@@ -26,9 +26,9 @@ $ npm i snabbdom snabbdom-transform-jsx-props
 
 ## Usage
 
-Use the utility on any Snabbdom virtual node created using its `jsx` pragma.
+Import the `transform` function from this package and use it on Snabbdom JSX.
 
-As an example, the below examples result in an identical virtual node structure.
+The below JSX example results in an identical virtual node structure.
 
 **Before:**
 
@@ -50,9 +50,9 @@ const node = (
 
 ```jsx
 import { jsx } from "snabbdom"
-import { transformJsxProps } from "snabbdom-transform-jsx-props"
+import { transform } from "snabbdom-transform-jsx-props"
 
-const node = transformJsxProps(
+const node = transform(
   <div className="my-component" prop-dir="ltr">
     <h1 data-foo-heading={true}>Hello world</h1>
     <p aria-hidden="true">And good day</p>
@@ -79,9 +79,9 @@ Note that this library does not support shorthands for all possible props. To be
 
 | Prop pattern | Module     | Example              |
 | ------------ | ---------- | -------------------- |
-| `aria-`      | Attributes | `aria-label={value}` |
 | `className`  | Properties | `className={value}`  |
 | `id`         | Properties | `id={value}`         |
+| `aria-`      | Attributes | `aria-label={value}` |
 | `href`       | Attributes | `href={value}`       |
 | `tabIndex`   | Attributes | `tabIndex={value}`   |
 | `alt`        | Attributes | `alt={value}`        |
