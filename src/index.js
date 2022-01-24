@@ -1,1 +1,1 @@
-export { transform } from "./transform.js"
+export { transformJsx } from "./transform-jsx.js"

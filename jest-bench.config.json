@@ -1,0 +1,16 @@
+{
+  "clearMocks": true,
+  "restoreMocks": true,
+  "testURL": "http://localhost/",
+  "modulePaths": ["src/"],
+  "verbose": true,
+  "transform": {
+    "\\.js$": "babel-jest"
+  },
+  "testEnvironment": "jest-bench/environment",
+  "testEnvironmentOptions": {
+    "testEnvironment": "jsdom"
+  },
+  "reporters": ["default", "jest-bench/reporter"],
+  "testRegex": "(/__benchmarks__/.*|\\.bench)\\.(ts|tsx|js)$"
+}
