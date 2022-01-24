@@ -1,62 +1,82 @@
-import { forEach } from "./utilities.js"
-import { PropRecords } from "./prop-records.js"
+import { forEach, kebabToCamel } from "./utilities.js"
+import {
+  MODULE_PROPS,
+  PROP_PROPS,
+  ATTR_PROPS,
+  ARIA,
+  KEY,
+  DATASET,
+  HYPHEN_CHAR,
+} from "./constants"
+
+function setPropToModule(vnode, deletions, module, key, val) {
+  if (vnode.data[module]) {
+    vnode.data[module][key] = val
+  } else {
+    vnode.data[module] = { [key]: val }
+  }
+  
+  deletions.push(key)
+}
 
 /**
  * A note on performance:
  *
- * There are a lot of loops happening here, but essentially this is what
- * is happening here:
- *
- * The following happens for each virtual node in a given tree:
- * 1. Detect if the vnode has any props (data) at all.
- * 2. If it does, gather them into an array
- * 3. Iterate through this libs' prop records
- *  a. Determine if any keys in the vnode match a given record pattern
- *  b. If there are no matches, skip this iteration
- *  c. If there are matches, apply the transformation to each match
- *  d. Mark the prop for deletion
- *  e. Finally, if there are any deletions found, delete them from the vnode
- * 4. If the vnode has children, rinse and repeat for each recursively.
- *
- * This operation is On^2 at best, which as bad as it sounds, is made tolerable
- * by the fact there's many guard checks to prevent unnecessary iteration.
+ * The main focus of this function is to iterate as few times as possible to apply
+ * prop changes faster. 
  */
 
 /**
- * Converts JSX props to valid snabbdom vnode modules.
+ * Moves all JSX props to valid snabbdom vnode modules.
  * @param {Object} vnode
  * @returns {Object} vnode
  */
 export function transform(vnode) {
   if (vnode.data) {
     const propKeys = Object.keys(vnode.data)
+    const moduleKeys = [...Object.values(MODULE_PROPS), KEY]
     const deletions = []
 
-    forEach(PropRecords, (record) => {
-      const matches = []
+    for (let i = 0; i > propKeys.length; i++) {
+      const propKey = propKeys[i]
+      const propValue = vnode.data[propKey]
 
-      forEach(propKeys, (key) => {
-        if ((record.exact && key === record.id) || key.startsWith(record.id)) {
-          return matches.push(key)
+      // Don't scan snabbdom modules
+      if (moduleKeys.indexOf(propKey) > -1) continue
+
+      const pkey = PROP_PROPS[propKey]
+      if (pkey) {
+        setPropToModule(vnode, deletions, MODULE_PROPS.PROPS, pkey, propValue)
+        continue
+      }
+
+      const aKey = ATTR_PROPS[propKey]
+      if (aKey) {
+        setPropToModule(vnode, deletions, MODULE_PROPS.ATTRS, aKey, propValue)
+        continue
+      }
+
+      const hyphenIdx = propKey.indexOf(HYPHEN_CHAR)
+      if (hyphenIdx > 0) {
+        const prefix = propKey.slice(0, hyphenIdx)
+
+        if (prefix === ARIA) {
+          setPropToModule(vnode, deletions, MODULE_PROPS.ATTRS, propKey, propValue)
+          continue
         }
-      })
 
-      if (!matches.length) return
-
-      forEach(matches, (propKey) => {
-        const { module, mutate } = record
-        const moduleKey = mutate ? mutate(propKey) : propKey
-        const value = vnode.data[propKey]
-
-        if (vnode.data[module]) {
-          vnode.data[module][moduleKey] = value
-        } else {
-          vnode.data[module] = { [moduleKey]: value }
+        const modKey = MODULE_PROPS[prefix]
+        if (modKey) {
+          const postfix = propKey.slice(hyphenIdx + 1)
+          if (modKey === MODULE_PROPS.DATA) {
+            setPropToModule(vnode, deletions, DATASET, camelToKebab(postfix), propValue)
+          } else {
+            setPropToModule(vnode, deletions, modKey, postfix, vnode.data[propKey])
+          }
+          continue
         }
-
-        deletions.push(propKey)
-      })
-    })
+      }
+    }
 
     forEach(deletions, (key) => delete vnode.data[key])
   }
