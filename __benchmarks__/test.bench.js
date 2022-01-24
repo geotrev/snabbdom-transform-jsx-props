@@ -1,6 +1,6 @@
 import { jsx } from "snabbdom"
 import { benchmarkSuite } from "jest-bench"
-import { transformJsx } from "../src"
+import { transformJsxProps } from "../src"
 
 const noop = () => {}
 
@@ -43,6 +43,6 @@ let fixture = createNode()
 
 benchmarkSuite("perf", {
   control() {
-    transformJsx(fixture)
+    transformJsxProps(fixture)
   },
 })

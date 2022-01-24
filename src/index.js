@@ -1,1 +1,1 @@
-export { transformJsx } from "./transform-jsx.js"
+export { transformJsxProps } from "./transform-jsx-props.js"

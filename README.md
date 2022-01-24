@@ -26,16 +26,16 @@ $ npm i snabbdom snabbdom-transform-jsx-props
 
 ## Usage
 
-Use the utility on any Snabbdom vnode created using its `jsx` pragma.
+Use the utility on any Snabbdom virtual node created using its `jsx` pragma.
 
-As an example, the below examples result in an identical vnode structure.
+As an example, the below examples result in an identical virtual node structure.
+
+**Before:**
 
 ```jsx
 import { jsx } from "snabbdom"
-import { transformJsx } from "snabbdom-transform-jsx-props"
 
-/* Before */
-const vanilla = (
+const node = (
   <div props={{ className: "my-component", dir: "ltr" }}>
     <h1 dataset={{ fooHeading: true }}>Hello world</h1>
     <p attrs={{ "aria-hidden": "true" }}>And good day</p>
@@ -44,9 +44,15 @@ const vanilla = (
     </a>
   </div>
 )
+```
 
-/* After */
-const transformed = transformJsx(
+**After:**
+
+```jsx
+import { jsx } from "snabbdom"
+import { transformJsxProps } from "snabbdom-transform-jsx-props"
+
+const node = transformJsxProps(
   <div className="my-component" prop-dir="region">
     <h1 data-foo-heading={true}>Hello world</h1>
     <p aria-hidden="true">And good day</p>
@@ -84,15 +90,9 @@ Note that this library does not support shorthands for all possible props. To be
 
 ## Why
 
-Snabbdom's built-in `jsx` pragma doesn't interpret your props by applying them to the appropriate module. Instead, Snabbdom requires you to specify these modules by having you set them as props directly on a given element.
+By default, Snabbdom `jsx` pragma won't apply most props unless you explicitly declare it in a [module object](https://github.com/snabbdom/snabbdom#modules-documentation) prop.
 
 This makeshift module-driven prop signature is awkward for folks used to React-style props, which this library aims to mirror.
-
-## How the transformer works
-
-By default, the Snabbdom `jsx` pragma shovels all unsupported vnode props into `vnode.data`. It won't apply these props because they aren't in one of [Snabbdom's modules](https://github.com/snabbdom/snabbdom#modules-documentation), as stated above.
-
-This library detects specific prop shorthands and moves them to the appropriate Snabbdom-supported module so your Snabbdom can process all your props.
 
 ## Performance
 

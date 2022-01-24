@@ -27,7 +27,7 @@ import { PropRecords } from "./prop-records.js"
  * @param {Object} vnode
  * @returns {Object} vnode
  */
-export function transformJsx(vnode) {
+export function transformJsxProps(vnode) {
   if (vnode.data) {
     const propKeys = Object.keys(vnode.data)
     const deletions = []
@@ -62,7 +62,7 @@ export function transformJsx(vnode) {
   }
 
   if (Array.isArray(vnode.children)) {
-    forEach(vnode.children, transformJsx)
+    forEach(vnode.children, transformJsxProps)
   }
 
   return vnode
