@@ -74,7 +74,7 @@
   },
   "homepage": "https://github.com/geotrev/snabbdom-transform-jsx-props#readme",
   "lint-staged": {
-    "src/**/*.js": [
+    "*.js": [
       "npm run prettier:check",
       "npm run eslint:check"
     ],
