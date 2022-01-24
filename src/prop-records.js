@@ -1,12 +1,13 @@
 import { kebabToCamel } from "./utilities.js"
 
 /**
- * Records are used to describe how a specific prop pattern should be applied
- * to the resulting Snabbdom vnode.
+ * These records describe how a given prop signature should be
+ * muted and applied to a Snabbdom virtual node.
  *
- * - reg: the prop pattern as a regexp
+ * - id: the prop identifier (usually a prefix, but not always)
  * - module: the target module, e.g. vnode.data[module]
- * - mutate: new property name within vnode.data[module]
+ * - mutate: how the key should be mutated when added to a module
+ * - exact: instructs the lib to compare the id 1:1 with a prop name
  */
 
 export const PropRecords = [
@@ -51,5 +52,30 @@ export const PropRecords = [
     id: "id",
     exact: true,
     module: "props",
+  },
+  {
+    id: "tabIndex",
+    exact: true,
+    module: "props",
+  },
+  {
+    id: "href",
+    exact: true,
+    module: "attrs",
+  },
+  {
+    id: "alt",
+    exact: true,
+    module: "attrs",
+  },
+  {
+    id: "src",
+    exact: true,
+    module: "attrs",
+  },
+  {
+    id: "type",
+    exact: true,
+    module: "attrs",
   },
 ]
