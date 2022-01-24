@@ -12,7 +12,7 @@
 - [Install](#install)
 - [Usage](#usage)
 - [Supported props](#supported-props)
-  - [Generic shorthands](#generic-shorthands)
+  - [Module shorthands](#module-shorthands)
   - [Attribute & property shorthands](#attribute--property-shorthands)
 - [Why](#why)
 
@@ -53,7 +53,7 @@ import { jsx } from "snabbdom"
 import { transformJsxProps } from "snabbdom-transform-jsx-props"
 
 const node = transformJsxProps(
-  <div className="my-component" prop-dir="region">
+  <div className="my-component" prop-dir="ltr">
     <h1 data-foo-heading={true}>Hello world</h1>
     <p aria-hidden="true">And good day</p>
     <a href="#" tabIndex="0"></a>
@@ -65,28 +65,28 @@ const node = transformJsxProps(
 
 Note that this library does not support shorthands for all possible props. To be the most approachable without bloating the prop namespace, use either one of `prop-` or `attr-` prop prefixes.
 
-### Generic shorthands
+### Module shorthands
 
 | Prop pattern | Module         | Example                |
 | ------------ | -------------- | ---------------------- |
-| `/^hook-/`   | Hooks          | `hook-insert={fn}`     |
-| `/^on-/`     | Event handlers | `on-click={fn}`        |
-| `/^data-/`   | Dataset        | `data-foo-bar={value}` |
-| `/^attr-/`   | Attributes     | `attr-href={value}`    |
-| `/^prop-/`   | Properties     | `prop-dir={value}`     |
+| `hook-`      | Hooks          | `hook-insert={fn}`     |
+| `on-`        | Event handlers | `on-click={fn}`        |
+| `data-`      | Dataset        | `data-foo-bar={value}` |
+| `attr-`      | Attributes     | `attr-role={value}`    |
+| `prop-`      | Properties     | `prop-dir={value}`     |
 
 ### Attribute & property shorthands
 
-| Prop pattern    | Module     | Example              |
-| --------------- | ---------- | -------------------- |
-| `/^aria-/`      | Attributes | `aria-label={value}` |
-| `/^className$/` | Properties | `className={value}`  |
-| `/^id$/`        | Properties | `id={value}`         |
-| `/^href$/`      | Attributes | `href={value}`       |
-| `/^tabIndex$/`  | Attributes | `tabIndex={value}`   |
-| `/^alt$/`       | Attributes | `alt={value}`        |
-| `/^src$/`       | Attributes | `src={value}`        |
-| `/^type$/`      | Attributes | `type={value}`       |
+| Prop pattern | Module     | Example              |
+| ------------ | ---------- | -------------------- |
+| `aria-`      | Attributes | `aria-label={value}` |
+| `className`  | Properties | `className={value}`  |
+| `id`         | Properties | `id={value}`         |
+| `href`       | Attributes | `href={value}`       |
+| `tabIndex`   | Attributes | `tabIndex={value}`   |
+| `alt`        | Attributes | `alt={value}`        |
+| `src`        | Attributes | `src={value}`        |
+| `type`       | Attributes | `type={value}`       |
 
 ## Why
 
