@@ -1,5 +1,5 @@
 import { jsx } from "snabbdom"
-import { transform } from "../transform-jsx"
+import { transform } from "../"
 
 const noop = () => {}
 
