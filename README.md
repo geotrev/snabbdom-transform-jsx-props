@@ -4,8 +4,8 @@
 <p align="center">
   <a href="https://www.npmjs.com/package/snabbdom-transform-jsx-props"><img src="https://img.shields.io/npm/v/snabbdom-transform-jsx-props.svg?sanitize=true" alt="Version"></a>
   <a href="https://www.npmjs.com/package/snabbdom-transform-jsx-props"><img src="https://img.shields.io/npm/l/snabbdom-transform-jsx-props.svg?sanitize=true" alt="License"></a>
-  <a href="https://www.npmjs.com/package/snabbdom-transform-jsx-props"><img src="https://badgen.net/circleci/github/geotrev/snabbdom-transform-jsx-props/main" alt="Circle CI status (main)" /></a>
-  <a href="https://www.npmjs.com/package/snabbdom-transform-jsx-props"><img src="https://badgen.net/bundlephobia/minzip/snabbdom-transform-jsx-props" alt="bundle size" /></a>
+  <a href="https://app.circleci.com/pipelines/github/geotrev/snabbdom-transform-jsx-props?branch=main"><img src="https://badgen.net/circleci/github/geotrev/snabbdom-transform-jsx-props/main" alt="Circle CI status (main)" /></a>
+  <a href="https://bundlephobia.com/package/snabbdom-transform-jsx-props@0.1.0"><img src="https://badgen.net/bundlephobia/minzip/snabbdom-transform-jsx-props" alt="bundle size" /></a>
   <a href="https://www.libraries.io/npm/snabbdom-transform-jsx-props"><img src="https://img.shields.io/librariesio/release/npm/snabbdom-transform-jsx-props" alt="dependency status" /></a>
 </p>
 
