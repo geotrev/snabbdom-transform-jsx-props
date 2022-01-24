@@ -5,16 +5,21 @@ import { transformJsx } from "../src"
 const noop = () => {}
 
 const props = {
-  "aria-hidden": "true",
-  "data-foo-bar": "bar",
-  "aria-labelledby": "foobar",
-  className: "baz",
-  "prop-role": "region",
-  "prop-value": "foo",
-  "attr-hidden": "true",
-  id: "barbaz",
+  "data-foo-bar": "test",
+  "prop-role": "test",
+  "prop-value": "test",
+  "attr-hidden": "test",
   "on-click": noop,
   "on-mouseenter": noop,
+  "aria-labelledby": "test",
+  "aria-hidden": "test",
+  className: "test",
+  id: "test",
+  tabIndex: "test",
+  href: "test",
+  alt: "test",
+  src: "test",
+  type: "test",
 }
 
 const createNode = () => (
