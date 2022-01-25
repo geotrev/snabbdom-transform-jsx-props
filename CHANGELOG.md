@@ -1,3 +1,5 @@
+## [0.1.1](https://github.com/geotrev/snabbdom-transform-jsx-props/compare/0.1.0...0.1.1) (2022-01-25)
+
 # 0.1.0 (2022-01-24)
 
 
