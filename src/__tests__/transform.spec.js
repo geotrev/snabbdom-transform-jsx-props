@@ -70,4 +70,16 @@ describe("transform", () => {
     const vnode = transform(<div className="test" />)
     expect(vnode.data.className).toBe(undefined)
   })
+
+  it("ignores module props", () => {
+    const vnode = transform(
+      <button tab-index={0} on={{ click: noop }} hook={{ insert: noop }}>
+        Test
+      </button>
+    )
+    expect(vnode.data.on.click).toEqual(noop)
+    expect(vnode.data.hook.insert).toEqual(noop)
+    expect(vnode.data.props.tabIndex).toEqual(0)
+    expect(vnode.data["tab-index"]).toBe(undefined)
+  })
 })

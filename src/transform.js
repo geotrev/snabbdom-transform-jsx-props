@@ -9,14 +9,14 @@ import {
   HYPHEN_CHAR,
 } from "./constants"
 
-function setPropToModule(vnode, deletions, module, key, value, dataKey) {
+function setPropToModule(vnode, deletions, module, propKey, moduleKey, value) {
   if (vnode.data[module]) {
-    vnode.data[module][key] = value
+    vnode.data[module][moduleKey] = value
   } else {
-    vnode.data[module] = { [key]: value }
+    vnode.data[module] = { [moduleKey]: value }
   }
 
-  deletions.push(dataKey || key)
+  deletions.push(propKey)
 }
 
 /**
@@ -26,20 +26,27 @@ function setPropToModule(vnode, deletions, module, key, value, dataKey) {
  */
 export function transform(vnode) {
   if (vnode.data) {
-    const propKeys = Object.keys(vnode.data)
     const moduleKeys = [...Object.values(MODULE_PROPS), KEY]
+    // remove all keys that match a module key
+    const propKeys = Object.keys(vnode.data).filter(
+      (key) => moduleKeys.indexOf(key) === -1
+    )
     const deletions = []
 
     for (let i = 0; i < propKeys.length; i++) {
       const propKey = propKeys[i]
       const propValue = vnode.data[propKey]
 
-      // Don't scan snabbdom modules
-      if (moduleKeys.indexOf(propKey) > -1) continue
-
       const pkey = PROP_PROPS[propKey]
       if (pkey) {
-        setPropToModule(vnode, deletions, MODULE_PROPS.props, pkey, propValue)
+        setPropToModule(
+          vnode,
+          deletions,
+          MODULE_PROPS.props,
+          propKey,
+          pkey,
+          propValue
+        )
         continue
       }
 
@@ -56,18 +63,18 @@ export function transform(vnode) {
               vnode,
               deletions,
               DATASET,
+              propKey,
               kebabToCamel(postfix),
-              propValue,
-              propKey
+              propValue
             )
           } else {
             setPropToModule(
               vnode,
               deletions,
               modKey,
+              propKey,
               postfix,
-              vnode.data[propKey],
-              propKey
+              vnode.data[propKey]
             )
           }
 
@@ -79,9 +86,9 @@ export function transform(vnode) {
             vnode,
             deletions,
             MODULE_PROPS.attrs,
+            propKey,
             propKey.slice(hyphenIdx + 1),
-            propValue,
-            propKey
+            propValue
           )
           continue
         }
@@ -91,16 +98,23 @@ export function transform(vnode) {
             vnode,
             deletions,
             MODULE_PROPS.props,
+            propKey,
             propKey.slice(hyphenIdx + 1),
-            propValue,
-            propKey
+            propValue
           )
           continue
         }
       }
 
       // As a fallback, we'll move everything else into `attrs`.
-      setPropToModule(vnode, deletions, MODULE_PROPS.attrs, propKey, propValue)
+      setPropToModule(
+        vnode,
+        deletions,
+        MODULE_PROPS.attrs,
+        propKey,
+        propKey,
+        propValue
+      )
     }
 
     forEach(deletions, (key) => delete vnode.data[key])
