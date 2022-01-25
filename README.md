@@ -36,10 +36,10 @@ The below JSX example results in an identical virtual node structure.
 import { jsx } from "snabbdom"
 
 const node = (
-  <div props={{ className: "my-component", dir: "ltr" }}>
+  <div props={{ className: "my-component" }} hook={{ insert: fn }}>
     <h1 dataset={{ fooHeading: true }}>Hello world</h1>
     <p attrs={{ "aria-hidden": "true" }}>And good day</p>
-    <a attrs={{ href: "#" }} props={{ tabIndex: 0 }}>
+    <a attrs={{ href: "#" }} props={{ tabIndex: 0 }} on={{ click: fn }}>
       Try me!
     </a>
   </div>
@@ -53,17 +53,17 @@ import { jsx } from "snabbdom"
 import { transform } from "snabbdom-transform-jsx-props"
 
 const node = transform(
-  <div className="my-component" prop-dir="ltr">
+  <div className="my-component" hook-insert={fn}>
     <h1 data-foo-heading={true}>Hello world</h1>
     <p aria-hidden="true">And good day</p>
-    <a href="#" tabIndex="0"></a>
+    <a href="#" tabIndex="0" on-click={fn}></a>
   </div>
 )
 ```
 
 ## Supported props
 
-Note that this library does not support shorthands for all possible props. To be the most approachable without bloating the prop namespace, use either one of `prop-` or `attr-` prop prefixes.
+All props are supported as shorthand.
 
 ### Module shorthands
 
@@ -75,18 +75,25 @@ Note that this library does not support shorthands for all possible props. To be
 | `attr-`      | Attributes     | `attr-role={value}`    |
 | `prop-`      | Properties     | `prop-dir={value}`     |
 
-### Attribute & property shorthands
+### Property shorthands
 
-| Prop pattern | Module     | Example              |
-| ------------ | ---------- | -------------------- |
-| `className`  | Properties | `className={value}`  |
-| `id`         | Properties | `id={value}`         |
-| `aria-`      | Attributes | `aria-label={value}` |
-| `href`       | Attributes | `href={value}`       |
-| `tabIndex`   | Attributes | `tabIndex={value}`   |
-| `alt`        | Attributes | `alt={value}`        |
-| `src`        | Attributes | `src={value}`        |
-| `type`       | Attributes | `type={value}`       |
+| Prop pattern | Alias for   | Example              |
+| ------------ | ----------- | -------------------- |
+| `className`  |             | `className={value}`  |
+| `class-name` | `className` | `class-name={value}` |
+| `id`         |             | `id={value}`         |
+| `tabIndex`   |             | `tabIndex={value}`   |
+| `tabindex`   | `tabIndex`  | `tabIndex={value}`   |
+| `tab-index`  | `tabIndex`  | `tab-index={value}`  |
+
+With the exception of property shorthands above, any JSX prop you set is automatically forwarded to Snabbdom's Attributes module. That said, you can instruct this plugin to set any property as an attribute, or vice versa. To do so, prepend `prop-` or `attr-` to the prop.
+
+Example:
+
+```jsx
+<button attr-tabindex="0" attr-onclick="click(event)" />
+<input prop-click="click(event)" prop-value={someValue} />
+```
 
 ## Why
 
@@ -95,7 +102,5 @@ By default, Snabbdom `jsx` pragma won't apply most props unless you explicitly d
 This makeshift module-driven prop signature is awkward for folks used to React-style props, which this library aims to mirror.
 
 ## Performance
-
-To avoid excessive loops when scanning virtual nodes, this library intentionally has a limited prop scope. It focuses on the most used attributes/props. If you think there should be a specific prop or set of props that need special handling, feel free to make an issue.
 
 This package also uses jest-bench for comparing implementations, if needed.
