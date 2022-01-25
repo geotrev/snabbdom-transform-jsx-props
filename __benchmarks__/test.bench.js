@@ -1,3 +1,8 @@
+/**
+ * Current benchmarks:
+ * - control: ~7200-7500ms
+ */
+
 import { jsx } from "snabbdom"
 import { benchmarkSuite } from "jest-bench"
 import { transform } from "../src"
@@ -25,6 +30,56 @@ const props = {
 const createNode = () => (
   <div {...props}>
     <p {...props}>
+      <span {...props}>
+        <span {...props}></span>
+        <span {...props}></span>
+        <span {...props}></span>
+      </span>
+      <span {...props}>
+        <span {...props}></span>
+        <span {...props}></span>
+        <span {...props}></span>
+      </span>
+      <span {...props}>
+        <span {...props}></span>
+        <span {...props}></span>
+        <span {...props}></span>
+      </span>
+      <span {...props}>
+        <span {...props}></span>
+        <span {...props}></span>
+        <span {...props}></span>
+      </span>
+      <span {...props}>
+        <span {...props}></span>
+        <span {...props}></span>
+        <span {...props}></span>
+      </span>
+      <span {...props}>
+        <span {...props}></span>
+        <span {...props}></span>
+        <span {...props}></span>
+      </span>
+      <span {...props}>
+        <span {...props}></span>
+        <span {...props}></span>
+        <span {...props}></span>
+      </span>
+      <span {...props}>
+        <span {...props}></span>
+        <span {...props}></span>
+        <span {...props}></span>
+      </span>
+      <span {...props}>
+        <span {...props}></span>
+        <span {...props}></span>
+        <span {...props}></span>
+      </span>
+      <span {...props}>
+        <span {...props}></span>
+        <span {...props}></span>
+        <span {...props}></span>
+      </span>
       <span {...props}>
         <span {...props}></span>
         <span {...props}></span>
