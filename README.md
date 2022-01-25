@@ -39,7 +39,11 @@ const node = (
   <div props={{ className: "my-component" }} hook={{ insert: fn }}>
     <h1 dataset={{ fooHeading: true }}>Hello world</h1>
     <p attrs={{ "aria-hidden": "true" }}>And good day</p>
-    <a attrs={{ href: "#" }} props={{ tabIndex: 0 }} on={{ click: fn }}>
+    <a
+      attrs={{ href: "#", style: "color: blue" }}
+      props={{ tabIndex: 0 }}
+      on={{ click: fn }}
+    >
       Try me!
     </a>
   </div>
@@ -56,7 +60,7 @@ const node = transform(
   <div className="my-component" hook-insert={fn}>
     <h1 data-foo-heading={true}>Hello world</h1>
     <p aria-hidden="true">And good day</p>
-    <a href="#" tabIndex="0" on-click={fn}></a>
+    <a href="#" attr-style="color: blue" tabIndex="0" on-click={fn}></a>
   </div>
 )
 ```

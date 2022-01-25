@@ -5,6 +5,8 @@ export const MODULE_PROPS = {
   data: "data",
   attrs: "attrs",
   props: "props",
+  style: "style",
+  class: "class",
 }
 
 // Props that move to `props` module
