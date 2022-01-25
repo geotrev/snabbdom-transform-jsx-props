@@ -1,3 +1,10 @@
+## [0.1.2](https://github.com/geotrev/snabbdom-transform-jsx-props/compare/0.1.1...0.1.2) (2022-01-25)
+
+
+### Features
+
+* adds style and class to module whitelist ([cc53944](https://github.com/geotrev/snabbdom-transform-jsx-props/commit/cc539440710ee440fd1aa401776a0e65fbdfd3d5))
+
 ## [0.1.1](https://github.com/geotrev/snabbdom-transform-jsx-props/compare/0.1.0...0.1.1) (2022-01-25)
 
 # 0.1.0 (2022-01-24)
