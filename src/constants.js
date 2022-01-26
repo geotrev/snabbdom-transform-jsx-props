@@ -2,7 +2,6 @@
 export const MODULE_PROPS = {
   hook: "hook",
   on: "on",
-  data: "data",
   attrs: "attrs",
   props: "props",
   style: "style",
@@ -20,6 +19,7 @@ export const PROP_PROPS = {
 
 export const ATTR = "attr"
 export const PROP = "prop"
+export const DATA = "data"
 export const DATASET = "dataset"
 export const KEY = "key"
 export const HYPHEN_CHAR = "-"

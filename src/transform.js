@@ -3,11 +3,14 @@ import {
   MODULE_PROPS,
   PROP_PROPS,
   KEY,
+  DATA,
   ATTR,
   PROP,
   DATASET,
   HYPHEN_CHAR,
 } from "./constants"
+
+const moduleKeys = [...Object.values(MODULE_PROPS), DATASET, KEY]
 
 function setPropToModule(vnode, deletions, module, propKey, moduleKey, value) {
   if (vnode.data[module]) {
@@ -26,7 +29,6 @@ function setPropToModule(vnode, deletions, module, propKey, moduleKey, value) {
  */
 export function transform(vnode) {
   if (vnode.data) {
-    const moduleKeys = [...Object.values(MODULE_PROPS), KEY]
     // remove all keys that match a module key
     const propKeys = Object.keys(vnode.data).filter(
       (key) => moduleKeys.indexOf(key) === -1
@@ -37,6 +39,7 @@ export function transform(vnode) {
       const propKey = propKeys[i]
       const propValue = vnode.data[propKey]
 
+      // Check whitelisted props
       const pkey = PROP_PROPS[propKey]
       if (pkey) {
         setPropToModule(
@@ -50,15 +53,16 @@ export function transform(vnode) {
         continue
       }
 
+      // Check for module/attr/prop prefixes
       const hyphenIdx = propKey.indexOf(HYPHEN_CHAR)
       if (hyphenIdx > 0) {
         const prefix = propKey.slice(0, hyphenIdx)
-        const modKey = MODULE_PROPS[prefix]
+        const modKey = prefix === DATA ? DATA : MODULE_PROPS[prefix]
 
         if (modKey) {
           const postfix = propKey.slice(hyphenIdx + 1)
 
-          if (modKey === MODULE_PROPS.data) {
+          if (modKey === DATA) {
             setPropToModule(
               vnode,
               deletions,
@@ -106,7 +110,7 @@ export function transform(vnode) {
         }
       }
 
-      // As a fallback, we'll move everything else into `attrs`.
+      // Move everything else into `attrs`.
       setPropToModule(
         vnode,
         deletions,
