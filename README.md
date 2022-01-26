@@ -13,7 +13,7 @@
 - [Usage](#usage)
 - [Supported props](#supported-props)
   - [Module shorthands](#module-shorthands)
-  - [Attribute & property shorthands](#attribute--property-shorthands)
+  - [Aliased shorthands](#aliased-shorthands)
 - [Why](#why)
 
 ## Install
@@ -67,9 +67,11 @@ const node = transform(
 
 ## Supported props
 
-All props are supported as shorthand.
+Any prop can be used at the top level.
 
 ### Module shorthands
+
+Declare a Snabbdom module prop at the top level without using the object syntax.
 
 | Prop pattern | Module         | Example                |
 | ------------ | -------------- | ---------------------- |
@@ -79,32 +81,26 @@ All props are supported as shorthand.
 | `attr-`      | Attributes     | `attr-role={value}`    |
 | `prop-`      | Properties     | `prop-dir={value}`     |
 
-### Property shorthands
+Worth noting is that you can set any prop, HTML attribute, or dom property to either the attributes or properties module by prefixing the name with `attr-` and `prop-`, respectively.
+
+### Aliased shorthands
+
+These are alternate names for common props.
 
 | Prop pattern | Alias for   | Example              |
 | ------------ | ----------- | -------------------- |
 | `className`  |             | `className={value}`  |
 | `class-name` | `className` | `class-name={value}` |
-| `id`         |             | `id={value}`         |
 | `tabIndex`   |             | `tabIndex={value}`   |
 | `tabindex`   | `tabIndex`  | `tabIndex={value}`   |
 | `tab-index`  | `tabIndex`  | `tab-index={value}`  |
 
-With the exception of property shorthands above, any JSX prop you set is automatically forwarded to Snabbdom's Attributes module. That said, you can instruct this plugin to set any property as an attribute, or vice versa. To do so, prepend `prop-` or `attr-` to the prop.
-
-Example:
-
-```jsx
-<button attr-tabindex="0" attr-onclick="click(event)" />
-<input prop-click="click(event)" prop-value={someValue} />
-```
-
 ## Why
 
-By default, Snabbdom `jsx` pragma won't apply most props unless you explicitly declare it in a [module object](https://github.com/snabbdom/snabbdom#modules-documentation) prop.
+By default, Snabbdom `jsx` pragma won't apply any prop unless you explicitly declare it in a [module object](https://github.com/snabbdom/snabbdom#modules-documentation).
 
-This makeshift module-driven prop signature is awkward for folks used to React-style props, which this library aims to mirror.
+While functional, this module-driven prop signature is awkward for folks used to React-style props, which this library aims to mirror.
 
 ## Performance
 
-This package also uses jest-bench for comparing implementations, if needed.
+This package uses jest-bench for comparing implementations.
