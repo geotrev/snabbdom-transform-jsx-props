@@ -1,5 +1,5 @@
 <h2 align="center">♻ snabbdom-transform-jsx-props</h2>
-<p align="center">Adds shorthand prop syntax support for <a href="https://github.com/snabbdom/snabbdom">Snabbdom</a> JSX</p>
+<p align="center">Adds full prop syntax support for <a href="https://github.com/snabbdom/snabbdom">Snabbdom</a> JSX</p>
 <br>
 <p align="center">
   <a href="https://www.npmjs.com/package/snabbdom-transform-jsx-props"><img src="https://img.shields.io/npm/v/snabbdom-transform-jsx-props.svg?sanitize=true" alt="Version"></a>
@@ -15,6 +15,7 @@
   - [Module shorthands](#module-shorthands)
   - [Aliased shorthands](#aliased-shorthands)
 - [Why](#why)
+- [Performance](#performance)
 
 ## Install
 
@@ -65,13 +66,13 @@ const node = transform(
 )
 ```
 
-## Supported props
+## API
 
 Any prop can be used at the top level.
 
 ### Module shorthands
 
-Declare a Snabbdom module prop at the top level without using the object syntax.
+Declare a Snabbdom module prop without using the object syntax.
 
 | Prop pattern | Module         | Example                |
 | ------------ | -------------- | ---------------------- |
@@ -99,7 +100,7 @@ These are alternate names for common props.
 
 By default, Snabbdom `jsx` pragma won't apply any prop unless you explicitly declare it in a [module object](https://github.com/snabbdom/snabbdom#modules-documentation).
 
-While functional, this module-driven prop signature is awkward for folks used to React-style props, which this library aims to mirror.
+While functional, this module-driven prop signature is awkward for JSX as most develoeprs expect props to be written somewhat like HTML.
 
 ## Performance
 
