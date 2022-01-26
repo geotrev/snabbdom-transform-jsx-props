@@ -1,3 +1,10 @@
+## [0.1.3](https://github.com/geotrev/snabbdom-transform-jsx-props/compare/0.1.2...0.1.3) (2022-01-26)
+
+
+### Bug Fixes
+
+* corrects handling of 'data' prefix to not remove dataset prop ([da9f54c](https://github.com/geotrev/snabbdom-transform-jsx-props/commit/da9f54cf53f646af332d9c383323d5680ee22870))
+
 ## [0.1.2](https://github.com/geotrev/snabbdom-transform-jsx-props/compare/0.1.1...0.1.2) (2022-01-25)
 
 
