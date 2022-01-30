@@ -1,25 +1,22 @@
 import { forEach, kebabToCamel } from "./utilities.js"
 import {
   MODULE_PROPS,
-  PROP_PROPS,
+  PROP_ALIAS_MAP,
   KEY,
   DATA,
   ATTR,
   PROP,
-  DATASET,
   HYPHEN_CHAR,
-} from "./constants"
+} from "./constants.js"
 
-const moduleKeys = [...Object.values(MODULE_PROPS), DATASET, KEY]
+const MODULE_NAMES = [...Object.values(MODULE_PROPS), KEY]
 
-function setPropToModule(vnode, deletions, module, propKey, moduleKey, value) {
-  if (vnode.data[module]) {
-    vnode.data[module][moduleKey] = value
+function setPropToModule(data, module, key, value) {
+  if (data[module]) {
+    data[module][key] = value
   } else {
-    vnode.data[module] = { [moduleKey]: value }
+    data[module] = { [key]: value }
   }
-
-  deletions.push(propKey)
 }
 
 /**
@@ -29,31 +26,43 @@ function setPropToModule(vnode, deletions, module, propKey, moduleKey, value) {
  */
 export function transform(vnode) {
   if (vnode.data) {
-    // remove all keys that match a module key
-    const propKeys = Object.keys(vnode.data).filter(
-      (key) => moduleKeys.indexOf(key) === -1
-    )
-    const deletions = []
+    const nextModuleState = {},
+      propKeys = []
 
-    for (let i = 0; i < propKeys.length; i++) {
-      const propKey = propKeys[i]
+    // remove all keys that match a module key
+
+    for (const key in vnode.data) {
+      if (MODULE_NAMES.indexOf(key) === -1) {
+        propKeys.push(key)
+      } else {
+        nextModuleState[key] = vnode.data[key]
+      }
+    }
+
+    const propsLength = propKeys.length
+    let idx = -1
+
+    // move all props to module entries
+
+    while (++idx < propsLength) {
+      const propKey = propKeys[idx]
       const propValue = vnode.data[propKey]
 
-      // Check whitelisted props
-      const pkey = PROP_PROPS[propKey]
-      if (pkey) {
+      // check if aliased prop name
+
+      const aliasedKey = PROP_ALIAS_MAP[propKey]
+      if (aliasedKey) {
         setPropToModule(
-          vnode,
-          deletions,
+          nextModuleState,
           MODULE_PROPS.props,
-          propKey,
-          pkey,
+          aliasedKey,
           propValue
         )
         continue
       }
 
-      // Check for module/attr/prop prefixes
+      // check if prefixed prop name
+
       const hyphenIdx = propKey.indexOf(HYPHEN_CHAR)
       if (hyphenIdx > 0) {
         const prefix = propKey.slice(0, hyphenIdx)
@@ -61,48 +70,33 @@ export function transform(vnode) {
 
         if (modKey) {
           const postfix = propKey.slice(hyphenIdx + 1)
-
           if (modKey === DATA) {
             setPropToModule(
-              vnode,
-              deletions,
-              DATASET,
-              propKey,
+              nextModuleState,
+              MODULE_PROPS.dataset,
               kebabToCamel(postfix),
               propValue
             )
           } else {
-            setPropToModule(
-              vnode,
-              deletions,
-              modKey,
-              propKey,
-              postfix,
-              vnode.data[propKey]
-            )
+            setPropToModule(nextModuleState, modKey, postfix, propValue)
           }
 
           continue
         }
 
-        if (prefix === ATTR) {
-          setPropToModule(
-            vnode,
-            deletions,
-            MODULE_PROPS.attrs,
-            propKey,
-            propKey.slice(hyphenIdx + 1),
-            propValue
-          )
-          continue
-        }
+        // check if attr- or prop-targeted prop name
 
-        if (prefix === PROP) {
+        const targetedMod =
+          prefix === ATTR
+            ? MODULE_PROPS.attrs
+            : prefix === PROP
+            ? MODULE_PROPS.props
+            : null
+
+        if (targetedMod) {
           setPropToModule(
-            vnode,
-            deletions,
-            MODULE_PROPS.props,
-            propKey,
+            nextModuleState,
+            targetedMod,
             propKey.slice(hyphenIdx + 1),
             propValue
           )
@@ -110,18 +104,12 @@ export function transform(vnode) {
         }
       }
 
-      // Move everything else into `attrs`.
-      setPropToModule(
-        vnode,
-        deletions,
-        MODULE_PROPS.attrs,
-        propKey,
-        propKey,
-        propValue
-      )
+      // fallback: move prop into `attrs`.
+
+      setPropToModule(nextModuleState, MODULE_PROPS.attrs, propKey, propValue)
     }
 
-    forEach(deletions, (key) => delete vnode.data[key])
+    vnode.data = nextModuleState
   }
 
   if (Array.isArray(vnode.children)) {

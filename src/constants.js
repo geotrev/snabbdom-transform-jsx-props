@@ -6,10 +6,11 @@ export const MODULE_PROPS = {
   props: "props",
   style: "style",
   class: "class",
+  dataset: "dataset",
 }
 
 // Props that move to `props` module
-export const PROP_PROPS = {
+export const PROP_ALIAS_MAP = {
   className: "className",
   "class-name": "className",
   "tab-index": "tabIndex",
@@ -20,6 +21,5 @@ export const PROP_PROPS = {
 export const ATTR = "attr"
 export const PROP = "prop"
 export const DATA = "data"
-export const DATASET = "dataset"
 export const KEY = "key"
 export const HYPHEN_CHAR = "-"
