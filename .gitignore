@@ -7,3 +7,4 @@ lib/
 node_modules/
 benchmarks/
 test/bundle.js
+.env
