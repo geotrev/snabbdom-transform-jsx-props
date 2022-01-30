@@ -1,6 +1,6 @@
 /**
  * Current benchmarks:
- * - control: ~7200-7500ms
+ * - control: ~6000-6200ms
  */
 
 import { jsx } from "snabbdom"

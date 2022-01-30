@@ -20,7 +20,7 @@ function setPropToModule(data, module, key, value) {
 }
 
 /**
- * Moves all JSX props to valid snabbdom vnode modules.
+ * Moves all JSX props to valid snabbdom virtual node modules.
  * @param {Object} vnode
  * @returns {Object} vnode
  */
