@@ -71,15 +71,45 @@ describe("transform", () => {
     expect(vnode.data.className).toBe(undefined)
   })
 
-  it("ignores module props", () => {
-    const vnode = transform(
-      <button tab-index={0} on={{ click: noop }} hook={{ insert: noop }}>
-        Test
-      </button>
-    )
-    expect(vnode.data.on.click).toEqual(noop)
-    expect(vnode.data.hook.insert).toEqual(noop)
-    expect(vnode.data.props.tabIndex).toEqual(0)
-    expect(vnode.data["tab-index"]).toBe(undefined)
+  describe("modules", () => {
+    it("does not regress: event listeners", () => {
+      const vnode = transform(<button on={{ click: noop }} />)
+      expect(vnode.data.on.click).toEqual(noop)
+    })
+
+    it("does not regress: class", () => {
+      const vnode = transform(<button class={{ test: true }} />)
+      expect(vnode.data.class.test).toBe(true)
+    })
+
+    it("does not regress: props", () => {
+      const vnode = transform(<button props={{ tabIndex: 0 }} />)
+      expect(vnode.data.props.tabIndex).toEqual(0)
+    })
+
+    it("does not regress: style", () => {
+      const vnode = transform(<button style={{ fontWeight: "bold" }} />)
+      expect(vnode.data.style.fontWeight).toEqual("bold")
+    })
+
+    it("does not regress: dataset", () => {
+      const vnode = transform(<button dataset={{ fooBar: "baz" }} />)
+      expect(vnode.data.dataset.fooBar).toEqual("baz")
+    })
+
+    it("does not regress: attributes", () => {
+      const vnode = transform(<button attrs={{ tabindex: "0" }} />)
+      expect(vnode.data.attrs.tabindex).toEqual("0")
+    })
+
+    it("does not regress: hooks", () => {
+      const vnode = transform(<button hook={{ insert: noop }} />)
+      expect(vnode.data.hook.insert).toEqual(noop)
+    })
+
+    it("does not regress: key", () => {
+      const vnode = transform(<button key="test" />)
+      expect(vnode.data.key).toEqual("test")
+    })
   })
 })
