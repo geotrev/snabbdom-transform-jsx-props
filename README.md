@@ -2,10 +2,10 @@
 <p align="center">Adds full prop syntax support for <a href="https://github.com/snabbdom/snabbdom">Snabbdom</a> JSX</p>
 <br>
 <p align="center">
-  <a href="https://www.npmjs.com/package/snabbdom-transform-jsx-props"><img src="https://img.shields.io/npm/v/snabbdom-transform-jsx-props.svg?sanitize=true" alt="Version"></a>
-  <a href="https://www.npmjs.com/package/snabbdom-transform-jsx-props"><img src="https://img.shields.io/npm/l/snabbdom-transform-jsx-props.svg?sanitize=true" alt="License"></a>
-  <a href="https://app.circleci.com/pipelines/github/geotrev/snabbdom-transform-jsx-props?branch=main"><img src="https://badgen.net/circleci/github/geotrev/snabbdom-transform-jsx-props/main" alt="Circle CI status (main)" /></a>
-  <a href="https://bundlephobia.com/package/snabbdom-transform-jsx-props"><img src="https://badgen.net/bundlephobia/minzip/snabbdom-transform-jsx-props" alt="bundle size" /></a>
+  <a href="https://www.npmjs.com/package/snabbdom-transform-jsx-props"><img src="https://img.shields.io/npm/v/snabbdom-transform-jsx-props.svg?sanitize=true&style=flat-square" alt="Version"></a>
+  <a href="https://github.com/geotrev/snabbdom-transform-jsx-props/blob/main/LICENSE"><img src="https://img.shields.io/npm/l/snabbdom-transform-jsx-props.svg?sanitize=true&style=flat-square" alt="License"></a>
+  <a href="https://github.com/geotrev/snabbdom-transform-jsx-props/actions/workflows/test.yml?query=branch%3Amain"><img src="https://badgen.net/github/checks/geotrev/snabbdom-transform-jsx-props/main?style=flat-square" alt="CI status" /></a>
+  <a href="https://bundlephobia.com/package/snabbdom-transform-jsx-props"><img src="https://badgen.net/bundlephobia/minzip/snabbdom-transform-jsx-props?style=flat-square" alt="bundle size" /></a>
   <a href="https://www.libraries.io/npm/snabbdom-transform-jsx-props"><img src="https://img.shields.io/librariesio/release/npm/snabbdom-transform-jsx-props" alt="dependency status" /></a>
 </p>
 
