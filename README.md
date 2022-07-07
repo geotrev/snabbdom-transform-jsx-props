@@ -100,7 +100,7 @@ These are alternate names for common props.
 
 By default, Snabbdom `jsx` pragma won't apply any prop unless you explicitly declare it in a [module object](https://github.com/snabbdom/snabbdom#modules-documentation).
 
-While functional, this module-driven prop signature is awkward for JSX as most develoeprs expect props to be written somewhat like HTML.
+While functional, this module-driven prop signature is awkward for JSX as most developers expect props to be written somewhat like HTML.
 
 ## Performance
 
