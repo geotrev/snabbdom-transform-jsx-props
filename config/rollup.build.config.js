@@ -1,13 +1,17 @@
+import fs from "fs"
 import path from "path"
 import babel from "@rollup/plugin-babel"
 import { nodeResolve } from "@rollup/plugin-node-resolve"
-import { terser } from "rollup-plugin-terser"
+import terser from "@rollup/plugin-terser"
 
-const currentDir = process.cwd()
+const loadJSON = (path) =>
+  JSON.parse(fs.readFileSync(new URL(path, import.meta.url)))
+
+const dirname = path.resolve()
 const year = new Date().getFullYear()
 
 const banner = async () => {
-  const { default: pkg } = await import("../package.json")
+  const pkg = loadJSON("../package.json")
 
   return `/*!
   * @license MIT (https://github.com/geotrev/${pkg.name}/blob/master/LICENSE)
@@ -23,7 +27,7 @@ const baseOutput = {
 }
 
 export default {
-  input: path.resolve(currentDir, "src/index.js"),
+  input: path.resolve(dirname, "src/index.js"),
   plugins: [
     nodeResolve(),
     babel({
@@ -35,24 +39,12 @@ export default {
   output: [
     {
       ...baseOutput,
-      file: path.resolve(currentDir, "lib/snabbdom-transform-jsx-props.js"),
+      file: path.resolve(dirname, "lib/snabbdom-transform-jsx-props.js"),
     },
     {
       ...baseOutput,
-      file: path.resolve(currentDir, "lib/snabbdom-transform-jsx-props.min.js"),
-      plugins: [
-        terser({
-          output: {
-            comments: (_, comment) => {
-              const { value, type } = comment
-
-              if (type === "comment2") {
-                return /@preserve|@license|@cc_on/i.test(value)
-              }
-            },
-          },
-        }),
-      ],
+      file: path.resolve(dirname, "lib/snabbdom-transform-jsx-props.min.js"),
+      plugins: [terser()],
     },
   ],
 }
