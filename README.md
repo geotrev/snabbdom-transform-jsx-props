@@ -1,5 +1,5 @@
 <h2 align="center">♻ snabbdom-transform-jsx-props</h2>
-<p align="center">Adds full prop syntax support for <a href="https://github.com/snabbdom/snabbdom">Snabbdom</a> JSX</p>
+<p align="center">Adds React-style prop support for <a href="https://github.com/snabbdom/snabbdom">Snabbdom</a> JSX</p>
 <br>
 <p align="center">
   <a href="https://www.npmjs.com/package/snabbdom-transform-jsx-props"><img src="https://img.shields.io/npm/v/snabbdom-transform-jsx-props.svg?sanitize=true&style=flat-square" alt="Version"></a>
@@ -27,52 +27,50 @@ $ npm i snabbdom snabbdom-transform-jsx-props
 
 ## Usage
 
-Import the `transform` function from this package and use it on Snabbdom JSX.
+Add the `jsxPropsModule` export to snabbdom's `init` function. **It must be the first module.**
 
-The below JSX example results in an identical virtual node structure.
+```js
+import { classModule, styleModule } from "snabbdom"
+import { jsxPropsModule } from "snabbdom-transform-jsx-props"
 
-**Before:**
-
-```jsx
-import { jsx } from "snabbdom"
-
-const node = (
-  <div props={{ className: "my-component" }} hook={{ insert: fn }}>
-    <h1 dataset={{ fooHeading: true }}>Hello world</h1>
-    <p attrs={{ "aria-hidden": "true" }}>And good day</p>
-    <a
-      attrs={{ href: "#", style: "color: blue" }}
-      props={{ tabIndex: 0 }}
-      on={{ click: fn }}
-    >
-      Try me!
-    </a>
-  </div>
-)
+const patch = init([jsxPropsModule, classModule, styleModule])
 ```
 
-**After:**
+The below example demonstrates the new JSX prop signature when using this module:
+
+**Vanilla Snabbdom JSX:**
 
 ```jsx
-import { jsx } from "snabbdom"
-import { transform } from "snabbdom-transform-jsx-props"
-
-const node = transform(
-  <div className="my-component" hook-insert={fn}>
-    <h1 data-foo-heading={true}>Hello world</h1>
-    <p aria-hidden="true">And good day</p>
-    <a href="#" attr-style="color: blue" tabIndex="0" on-click={fn}></a>
-  </div>
-)
+<div props={{ className: "my-component" }} hook={{ insert: () => {} }}>
+  <h1 dataset={{ fooHeading: true }}>Hello world</h1>
+  <p attrs={{ "aria-hidden": "true" }}>And good day</p>
+  <a
+    attrs={{ href: "#", style: "color: blue" }}
+    props={{ tabIndex: 0 }}
+    on={{ click: () => {} }}
+  >
+    Try me!
+  </a>
+</div>
 ```
+
+**With this package:**
+
+```jsx
+<div className="my-component" hook-insert={() => {}}>
+  <h1 data-foo-heading={true}>Hello world</h1>
+  <p aria-hidden="true">And good day</p>
+  <a href="#" attr-style="color: blue" tabIndex="0" on-click={() => {}}></a>
+</div>
+```
+
+The key difference is you will no longer need a module object to add props. They are automatically added for you (unless you specify the module [with a prefix](#module-shorthands)), plus property/attribute props fall back to DOM attributes by default.
 
 ## API
 
-Any prop can be used at the top level.
-
 ### Module shorthands
 
-Declare a Snabbdom module prop without using the object syntax.
+Specifying a Snabbdom module will direct this plugin on how to use the prop.
 
 | Prop pattern | Module         | Example                |
 | ------------ | -------------- | ---------------------- |
@@ -82,26 +80,26 @@ Declare a Snabbdom module prop without using the object syntax.
 | `attr-`      | Attributes     | `attr-role={value}`    |
 | `prop-`      | Properties     | `prop-dir={value}`     |
 
-Worth noting is that you can set any prop, HTML attribute, or dom property to either the attributes or properties module by prefixing the name with `attr-` and `prop-`, respectively.
+### Aliased property shorthands
 
-### Aliased shorthands
-
-These are alternate names for common props.
+These are alternate names for common props. They are always treated as DOM properties, which reflect to their respective attributes.
 
 | Prop pattern | Alias for   | Example              |
 | ------------ | ----------- | -------------------- |
 | `className`  |             | `className={value}`  |
 | `class-name` | `className` | `class-name={value}` |
 | `tabIndex`   |             | `tabIndex={value}`   |
-| `tabindex`   | `tabIndex`  | `tabIndex={value}`   |
+| `tabindex`   | `tabIndex`  | `tabindex={value}`   |
 | `tab-index`  | `tabIndex`  | `tab-index={value}`  |
 
 ## Why
 
-By default, Snabbdom `jsx` pragma won't apply any prop unless you explicitly declare it in a [module object](https://github.com/snabbdom/snabbdom#modules-documentation).
+By default, Snabbdom `jsx` pragma doesn't handle any prop not declared it in a [module](https://github.com/snabbdom/snabbdom#modules-documentation).
 
-While functional, this module-driven prop signature is awkward for JSX as most developers expect props to be written somewhat like HTML.
+While functional and concise, this module-driven prop signature is awkward given the prevalent of HTML-like JSX prop signatures.
 
 ## Performance
 
-This package uses jest-bench for comparing implementations.
+Like Snabbdom itself, a top priority of this module is performance. As a result, it runs linearly by detecting modules present in a given vnode, then going over the props themselves. This allows specific application of certain props to their appropriate module, then immediately iterating to the next prop.
+
+Like all code, I wouldn't claim this to be perfect, so contributions are welcome if you suspect improvements can be made.
