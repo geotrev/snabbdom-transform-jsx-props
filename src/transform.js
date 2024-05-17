@@ -24,7 +24,7 @@ function setPropToModule(data, module, key, value) {
  * @param {Object} vnode
  * @returns {Object} vnode
  */
-export function transform(vnode) {
+export const transform = (vnode) => {
   if (vnode.data) {
     const nextModuleState = {},
       propKeys = []
@@ -112,9 +112,7 @@ export function transform(vnode) {
     vnode.data = nextModuleState
   }
 
-  if (Array.isArray(vnode.children)) {
-    forEach(vnode.children, transform)
-  }
-
   return vnode
 }
+
+export const jsxPropsModule = { create: transform, update: transform }
