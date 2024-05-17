@@ -1,1 +1,1 @@
-export { jsxPropsModule } from "./jsxPropsModule.js"
+export { jsxDomPropsModule } from "./jsxDomPropsModule.js"

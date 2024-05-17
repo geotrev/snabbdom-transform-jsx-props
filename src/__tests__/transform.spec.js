@@ -1,5 +1,5 @@
 import { jsx } from "snabbdom"
-import { transform } from "../jsxPropsModule"
+import { transform } from "../jsxDomPropsModule"
 
 const noop = () => {}
 

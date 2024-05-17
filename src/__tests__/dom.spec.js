@@ -9,10 +9,10 @@ import {
   attributesModule,
   datasetModule,
 } from "snabbdom"
-import { jsxPropsModule } from "../"
+import { jsxDomPropsModule } from "../"
 
 const patch = init([
-  jsxPropsModule, // must be first
+  jsxDomPropsModule, // must be first
   classModule,
   propsModule,
   styleModule,

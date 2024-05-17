@@ -115,4 +115,4 @@ export const transform = (oldVNode, _vnode) => {
   }
 }
 
-export const jsxPropsModule = { create: transform, update: transform }
+export const jsxDomPropsModule = { create: transform, update: transform }

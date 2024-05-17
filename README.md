@@ -27,14 +27,16 @@ $ npm i snabbdom snabbdom-transform-jsx-props
 
 ## Usage
 
-Add the `jsxPropsModule` export to snabbdom's `init` function. **It must be the first module.**
+Add the `jsxDomPropsModule` export to snabbdom's `init` function. **It must be the first module.**
 
 ```js
 import { classModule, styleModule } from "snabbdom"
-import { jsxPropsModule } from "snabbdom-transform-jsx-props"
+import { jsxDomPropsModule } from "snabbdom-transform-jsx-props"
 
-const patch = init([jsxPropsModule, classModule, styleModule])
+const patch = init([jsxDomPropsModule, classModule, styleModule])
 ```
+
+This module is intended for _web-related_ use-cases when paired with the Snabbdom package. This means non-web environments, like mobile apps and the like, are not guaranteed to work.
 
 The below example demonstrates the new JSX prop signature when using this module:
 
