@@ -9,9 +9,10 @@ import {
   attributesModule,
   datasetModule,
 } from "snabbdom"
-import { transform } from "../"
+import { jsxDomPropsModule } from "../"
 
 const patch = init([
+  jsxDomPropsModule, // must be first
   classModule,
   propsModule,
   styleModule,
@@ -21,7 +22,7 @@ const patch = init([
 ])
 
 function mount(baseNode, nextVnode) {
-  const state = patch(baseNode, transform(nextVnode))
+  const state = patch(baseNode, nextVnode)
   const wrapper = document.createElement("div")
   wrapper.id = "root"
   wrapper.appendChild(state.elm)
@@ -101,7 +102,7 @@ describe("DOM", () => {
       const handler = jest.fn()
       const { elm } = mount(baseNode, <button on={{ click: handler }} />)
       elm.click()
-      expect(handler).toBeCalled()
+      expect(handler).toHaveBeenCalled()
     })
 
     it("does not regress: class", () => {
@@ -132,7 +133,7 @@ describe("DOM", () => {
     it("does not regress: hooks", () => {
       const handler = jest.fn()
       mount(baseNode, <button hook={{ insert: handler }} />)
-      expect(handler).toBeCalled()
+      expect(handler).toHaveBeenCalled()
     })
   })
 })

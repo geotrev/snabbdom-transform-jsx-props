@@ -1,4 +1,4 @@
-import { forEach, kebabToCamel } from "./utilities.js"
+import { kebabToCamel } from "./utilities.js"
 import {
   MODULE_PROPS,
   PROP_ALIAS_MAP,
@@ -21,10 +21,12 @@ function setPropToModule(data, module, key, value) {
 
 /**
  * Moves all JSX props to valid snabbdom virtual node modules.
+ * @param {Object} oldVNode
  * @param {Object} vnode
- * @returns {Object} vnode
  */
-export function transform(vnode) {
+export const transform = (oldVNode, _vnode) => {
+  const vnode = _vnode || oldVNode
+
   if (vnode.data) {
     const nextModuleState = {},
       propKeys = []
@@ -90,8 +92,8 @@ export function transform(vnode) {
           prefix === ATTR
             ? MODULE_PROPS.attrs
             : prefix === PROP
-            ? MODULE_PROPS.props
-            : null
+              ? MODULE_PROPS.props
+              : null
 
         if (targetedMod) {
           setPropToModule(
@@ -111,10 +113,6 @@ export function transform(vnode) {
 
     vnode.data = nextModuleState
   }
-
-  if (Array.isArray(vnode.children)) {
-    forEach(vnode.children, transform)
-  }
-
-  return vnode
 }
+
+export const jsxDomPropsModule = { create: transform, update: transform }
