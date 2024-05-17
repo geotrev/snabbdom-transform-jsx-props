@@ -22,7 +22,7 @@ const banner = async () => {
 
 const baseOutput = {
   banner,
-  format: "cjs",
+  format: "esm",
   sourcemap: true,
 }
 
