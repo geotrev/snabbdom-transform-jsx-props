@@ -8,6 +8,7 @@
   "modulePaths": ["src/"],
   "testEnvironment": "jsdom",
   "verbose": true,
+  "transformIgnorePatterns": ["node_modules/(?!snabbdom)"],
   "transform": {
     "\\.js$": "babel-jest"
   }
