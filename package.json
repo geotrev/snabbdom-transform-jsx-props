@@ -1,6 +1,6 @@
 {
   "name": "snabbdom-transform-jsx-props",
-  "version": "0.2.2",
+  "version": "0.3.0",
   "description": "Intuitive prop syntax for Snabbdom JSX.",
   "main": "lib/snabbdom-transform-jsx-props.js",
   "module": "src/index.js",
