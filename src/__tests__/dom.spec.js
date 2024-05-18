@@ -44,12 +44,12 @@ describe("DOM", () => {
   })
 
   describe("prefixes", () => {
-    it("sets with 'attr-' prefix", () => {
+    it("sets with attr prefix", () => {
       const { elm } = mount(baseNode, <button attr-type="button" />)
       expect(elm.getAttribute("type")).toEqual("button")
     })
 
-    it("sets with prop- prefix", () => {
+    it("sets with prop prefix", () => {
       const { elm } = mount(baseNode, <button prop-type="button" />)
       expect(elm.type).toEqual("button")
     })
