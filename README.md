@@ -11,9 +11,7 @@
 
 - [Install](#install)
 - [Usage](#usage)
-- [Supported props](#supported-props)
-  - [Module shorthands](#module-shorthands)
-  - [Aliased shorthands](#aliased-shorthands)
+- [Features](#features)
 - [Why](#why)
 - [Performance](#performance)
 
@@ -27,20 +25,18 @@ $ npm i snabbdom snabbdom-transform-jsx-props
 
 ## Usage
 
-Add the `jsxDomPropsModule` export to snabbdom's `init` function. **It must be the first module.**
+Add the `jsxPropsModule` export to Snabbdom's `init` function. **It must be the first module** as the JSX props will be forwarded to the appropriate Snabbdom module object.
 
 ```js
 import { classModule, styleModule } from "snabbdom"
-import { jsxDomPropsModule } from "snabbdom-transform-jsx-props"
+import { jsxPropsModule } from "snabbdom-transform-jsx-props"
 
-const patch = init([jsxDomPropsModule, classModule, styleModule])
+const patch = init([jsxPropsModule, classModule, styleModule])
 ```
-
-This module is intended for _web-related_ use-cases when paired with the Snabbdom package. This means non-web environments, like mobile apps and the like, are not guaranteed to work.
 
 The below example demonstrates the new JSX prop signature when using this module:
 
-**Vanilla Snabbdom JSX:**
+**Vanilla JSX:**
 
 ```jsx
 <div props={{ className: "my-component" }} hook={{ insert: () => {} }}>
@@ -56,7 +52,7 @@ The below example demonstrates the new JSX prop signature when using this module
 </div>
 ```
 
-**With this package:**
+**With `jsxPropsModule`:**
 
 ```jsx
 <div className="my-component" hook-insert={() => {}}>
@@ -66,39 +62,28 @@ The below example demonstrates the new JSX prop signature when using this module
 </div>
 ```
 
-The key difference is you will no longer need a module object to add props. They are automatically added for you (unless you specify the module [with a prefix](#module-shorthands)), plus property/attribute props fall back to DOM attributes by default.
+## Features
 
-## API
+At its core, this module forwards _most_ props to the [attributes](https://github.com/snabbdom/snabbdom?tab=readme-ov-file#the-attributes-module) module. Otherwise, here's what to expect:
 
-### Module shorthands
+- `key` prop is left as-is
+- All [module props](https://github.com/snabbdom/snabbdom?tab=readme-ov-file#modules-documentation) are unaffected (to prevent regressions on vanilla behavior)
+- Some props, such as `className` or `tabIndex`, are always moved to the props module to be set as DOM properties
+- Shorthands (prefixed module props) can be used to direct a JSX prop into a specific module. This flattens props (useful for hooks and listeners especially). These are the supported module prefixes:
 
-Specifying a Snabbdom module will direct this plugin on how to use the prop.
-
-| Prop pattern | Module         | Example                |
-| ------------ | -------------- | ---------------------- |
-| `hook-`      | Hooks          | `hook-insert={fn}`     |
-| `on-`        | Event handlers | `on-click={fn}`        |
-| `data-`      | Dataset        | `data-foo-bar={value}` |
-| `attr-`      | Attributes     | `attr-role={value}`    |
-| `prop-`      | Properties     | `prop-dir={value}`     |
-
-### Aliased property shorthands
-
-These are alternate names for common props. They are always treated as DOM properties, which reflect to their respective attributes.
-
-| Prop pattern | Alias for   | Example              |
-| ------------ | ----------- | -------------------- |
-| `className`  |             | `className={value}`  |
-| `class-name` | `className` | `class-name={value}` |
-| `tabIndex`   |             | `tabIndex={value}`   |
-| `tabindex`   | `tabIndex`  | `tabindex={value}`   |
-| `tab-index`  | `tabIndex`  | `tab-index={value}`  |
+  | Prop pattern | Module         | Example                  |
+  | ------------ | -------------- | ------------------------ |
+  | `hook-`      | Hooks          | `hook-insert={() => {}}` |
+  | `on-`        | Event handlers | `on-click={() => {}}`    |
+  | `data-`      | Dataset        | `data-el-id="123"`       |
+  | `attrs-`     | Attributes     | `attrs-role="region"`    |
+  | `props-`     | Properties     | `props-dir="rtl`         |
 
 ## Why
 
-By default, Snabbdom `jsx` pragma doesn't handle any prop not declared it in a [module](https://github.com/snabbdom/snabbdom#modules-documentation).
+By default, Snabbdom won't handle attributes/properties unless declared in a [module](https://github.com/snabbdom/snabbdom#modules-documentation) object. While functional and concise, that module-driven prop signature is awkward given the prevalence of HTML-like JSX prop signatures in tools like React.
 
-While functional and concise, this module-driven prop signature is awkward given the prevalent of HTML-like JSX prop signatures.
+This module aims to improve that developer experience while retaining the great performance already present in Snabbdom.
 
 ## Performance
 

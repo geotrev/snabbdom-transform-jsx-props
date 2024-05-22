@@ -10,6 +10,6 @@
   "verbose": true,
   "transformIgnorePatterns": ["node_modules/(?!snabbdom)"],
   "transform": {
-    "\\.js$": "babel-jest"
+    "^.+\\.[tj]sx?$": "babel-jest"
   }
 }

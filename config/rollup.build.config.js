@@ -39,11 +39,11 @@ export default {
   output: [
     {
       ...baseOutput,
-      file: path.resolve(dirname, "lib/snabbdom-transform-jsx-props.js"),
+      file: path.resolve(dirname, "lib/jsx-props-module.js"),
     },
     {
       ...baseOutput,
-      file: path.resolve(dirname, "lib/snabbdom-transform-jsx-props.min.js"),
+      file: path.resolve(dirname, "lib/jsx-props-module.min.js"),
       plugins: [terser()],
     },
   ],
